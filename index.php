@@ -12,34 +12,32 @@
 <body>
     <main class="container">
         <h1>Web Contact Form</h1>
-        <form>
+        <form enctype="multipart/form-data" method="POST" action="index.php">
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Username</label>
-    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="username">
   </div>
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
   </div>
   <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1">
+    <input type="password" class="form-control" id="exampleInputPassword1" name="password">
   </div>
   <div class="btn-group">
-  <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-    Issue Type
-  </button>
-  <ul class="dropdown-menu">
-    <li><a class="dropdown-item" href="#">Query</a></li>
-    <li><a class="dropdown-item" href="#">Feedback</a></li>
-    <li><a class="dropdown-item" href="#">Complaint</a></li>
-    <li><a class="dropdown-item" href="#">Other</a></li>
-  </ul>
+      <label for="issueType" class="form-label">Issue Type</label>
+  <select class="form-select" aria-label="Default select example" id="issueType" name="issueType">
+  <option selected value="Query">Query</option>
+  <option value="Feedback">Feedback</option>
+  <option value="Complaint">Complaint</option>
+  <option value="Other">Other</option>
+</select>
 </div>
 
 <div class="form-floating" style="margin-top: 2em;">
-  <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+  <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" name="userComments"></textarea>
   <label for="floatingTextarea2">User's Comments</label>
 </div>
 
@@ -47,4 +45,15 @@
 </form>
     </main>
 </body>
+
+    <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $issueType = $_POST['issueType'];
+        $userComments = $_POST['userComments'];
+
+        echo "$username <br>$email <br>$password <br>$issueType <br>$userComments";
+    } ?>
+
 </html>
