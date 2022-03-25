@@ -4,11 +4,19 @@
   margin: 0;
 }
 
-h1 {
+h1,
+h3 {
   text-align: center;
   margin: 2em;
 }
 
-/* body {
-  padding: 2em;
-} */
+h3 span {
+  text-decoration: underline;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

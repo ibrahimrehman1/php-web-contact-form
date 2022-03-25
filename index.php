@@ -12,14 +12,14 @@
 <body>
     <main class="container">
         <h1>Web Contact Form</h1>
-        <form enctype="multipart/form-data" method="POST" action="index.php">
+        <form enctype="multipart/form-data" method="POST" action="destination.php">
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Username</label>
     <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="username">
   </div>
   <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+    <label for="exampleInputEmail2" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail2" aria-describedby="emailHelp" name="email">
     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
   </div>
   <div class="mb-3">
@@ -45,15 +45,4 @@
 </form>
     </main>
 </body>
-
-    <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $username = $_POST['username'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $issueType = $_POST['issueType'];
-        $userComments = $_POST['userComments'];
-
-        echo "$username <br>$email <br>$password <br>$issueType <br>$userComments";
-    } ?>
-
 </html>
