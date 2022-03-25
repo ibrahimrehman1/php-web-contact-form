@@ -15,33 +15,32 @@
         <form enctype="multipart/form-data" method="POST" action="destination.php">
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Username</label>
-    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="username">
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="username" required>
   </div>
   <div class="mb-3">
     <label for="exampleInputEmail2" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail2" aria-describedby="emailHelp" name="email">
+    <input type="email" class="form-control" id="exampleInputEmail2" aria-describedby="emailHelp" name="email" required>
     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
   </div>
   <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+    <input type="password" class="form-control" id="exampleInputPassword1" name="password" required>
   </div>
-  <div class="btn-group">
       <label for="issueType" class="form-label">Issue Type</label>
-  <select class="form-select" aria-label="Default select example" id="issueType" name="issueType">
+  <select class="form-select" aria-label="Default select example" id="issueType" name="issueType" required>
   <option selected value="Query">Query</option>
   <option value="Feedback">Feedback</option>
   <option value="Complaint">Complaint</option>
   <option value="Other">Other</option>
 </select>
-</div>
 
 <div class="form-floating" style="margin-top: 2em;">
-  <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" name="userComments"></textarea>
+  <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" name="userComments" required></textarea>
   <label for="floatingTextarea2">User's Comments</label>
 </div>
 
   <button type="submit" class="btn btn-primary" style="margin-top: 2em;">Submit</button>
+  <button type="reset" class="btn btn-danger" style="margin-top: 2em;">Reset</button>
 </form>
     </main>
 </body>
