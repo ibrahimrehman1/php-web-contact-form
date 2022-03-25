@@ -1,0 +1,17 @@
+{
+  "name": "app/phpwebformproject",
+  "autoload": {
+    "psr-4": {
+      "app\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Ibrahim Rehman",
+      "email": "ibrahimrehman0346@gmail.com"
+    }
+  ],
+  "require": {
+    "symfony/password-hasher": "^6.0"
+  }
+}

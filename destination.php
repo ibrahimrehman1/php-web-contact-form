@@ -13,13 +13,49 @@
 
 <main class="container userInfo">
     
-    <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    <?php
+    require_once 'vendor\autoload.php';
+    use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $pdo = new \PDO(
+            'mysql:host=localhost;port=3306;dbname=contactformdata',
+            'root',
+            ''
+        );
+        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
         $username = $_POST['username'];
         $email = $_POST['email'];
         $password = $_POST['password'];
         $issueType = $_POST['issueType'];
         $userComments = $_POST['userComments'];
-    } ?>
+
+        // Configure different password hashers via the factory
+        $factory = new PasswordHasherFactory([
+            'common' => ['algorithm' => 'bcrypt'],
+            'memory-hard' => ['algorithm' => 'sodium'],
+        ]);
+
+        // Retrieve the right password hasher by its name
+        $passwordHasher = $factory->getPasswordHasher('common');
+
+        // Hash a plain password
+        $hashPassword = $passwordHasher->hash($password); // returns a bcrypt hash
+
+        $stat = $pdo->prepare(
+            'INSERT INTO contacts VALUES (:username, :emailAddress, :password, :issueType, :userComments)'
+        );
+
+        $stat->bindValue(':username', $username);
+        $stat->bindValue(':emailAddress', $email);
+        $stat->bindValue(':password', $hashPassword);
+        $stat->bindValue(':issueType', $issueType);
+        $stat->bindValue(':userComments', $userComments);
+
+        $stat->execute();
+    }
+    ?>
     <h3>
         <span>Username:</span> <?php echo $username; ?>
     </h3>
@@ -35,6 +71,7 @@
     <h3>
         <span>Comments:</span> <?php echo $userComments; ?>
     </h3>
+
 
     <a class="btn btn-success" href="./index.php">GO BACK</a>
 </main>
