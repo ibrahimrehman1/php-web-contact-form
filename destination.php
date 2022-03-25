@@ -73,7 +73,7 @@
     </h3>
 
 
-    <a class="btn btn-success" href="./index.php">GO BACK</a>
+    <a class="btn btn-success btn-lg" href="./index.php">GO BACK</a>
 </main>
 </body>
 </html>
