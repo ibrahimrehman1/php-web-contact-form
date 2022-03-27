@@ -15,8 +15,7 @@
     
     <?php 
     
-    require_once 'vendor\autoload.php';
-use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
+   
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $username = $_POST['username'];
         $email = $_POST['email'];
@@ -28,42 +27,7 @@ use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
     
 
     
-    try{
-
     
-        $pdo = new \PDO(
-            'mysql:host=localhost;port=3306;dbname=contactformdata',
-            'root',
-            ''
-        );
-        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        // Configure different password hashers via the factory
-        $factory = new PasswordHasherFactory([
-            'common' => ['algorithm' => 'bcrypt'],
-            'memory-hard' => ['algorithm' => 'sodium'],
-        ]);
-
-        // Retrieve the right password hasher by its name
-        $passwordHasher = $factory->getPasswordHasher('common');
-
-        // Hash a plain password
-        $hashPassword = $passwordHasher->hash($password); // returns a bcrypt hash
-
-        $stat = $pdo->prepare(
-            'INSERT INTO users VALUES (:username, :emailAddress, :password, :issueType, :userComments)'
-        );
-
-        $stat->bindValue(':username', $username);
-        $stat->bindValue(':emailAddress', $email);
-        $stat->bindValue(':password', $hashPassword);
-        $stat->bindValue(':issueType', $issueType);
-        $stat->bindValue(':userComments', $userComments);
-
-        $stat->execute();
-
-    }catch(Exception $err){
-        echo "Unable to Connect to DB";
-    }
     
 
     ?>
@@ -90,12 +54,30 @@ use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
 
         <button class="btn btn-info btn-lg" onclick="window.location = 'index.php'">HOME</button>
         <button class="btn btn-info btn-lg" type="submit">EDIT</button>
-        <button class="btn btn-info btn-lg">SUBMIT</button>
+        <button class="btn btn-info btn-lg" onclick="saveData()" type="button">SUBMIT</button>
 
     </div>
 
     </form>
 </main>
+<script>
+    async function saveData(){
+        console.log(123);
+        let data = await fetch("savedata.php", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({username: "<?php echo $username;?>", 
+        
+            password: "<?php echo $password;?>",
+            email: "<?php echo $email;?>",
+            userComments: "<?php echo $userComments;?>",
+            issueType: "<?php echo $issueType;?>"
+        
+        })})
+
+        console.log(data);
+
+        // window.location = "index.php";
+    }
+
+</script>
 </body>
 </html>
 
