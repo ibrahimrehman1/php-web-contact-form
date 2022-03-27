@@ -24,61 +24,77 @@ use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
         $issueType = $_POST['issueType'];
         $userComments = $_POST['userComments'];
     } 
+
     
-    $pdo = new \PDO(
-        'mysql:host=localhost;port=3306;dbname=contactformdata',
-        'root',
-        ''
-    );
-    $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-    // Configure different password hashers via the factory
-    $factory = new PasswordHasherFactory([
-        'common' => ['algorithm' => 'bcrypt'],
-        'memory-hard' => ['algorithm' => 'sodium'],
-    ]);
 
-    // Retrieve the right password hasher by its name
-    $passwordHasher = $factory->getPasswordHasher('common');
+    
+    try{
 
-    // Hash a plain password
-    $hashPassword = $passwordHasher->hash($password); // returns a bcrypt hash
+    
+        $pdo = new \PDO(
+            'mysql:host=localhost;port=3306;dbname=contactformdata',
+            'root',
+            ''
+        );
+        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        // Configure different password hashers via the factory
+        $factory = new PasswordHasherFactory([
+            'common' => ['algorithm' => 'bcrypt'],
+            'memory-hard' => ['algorithm' => 'sodium'],
+        ]);
 
-    $stat = $pdo->prepare(
-        'INSERT INTO contacts VALUES (:username, :emailAddress, :password, :issueType, :userComments)'
-    );
+        // Retrieve the right password hasher by its name
+        $passwordHasher = $factory->getPasswordHasher('common');
 
-    $stat->bindValue(':username', $username);
-    $stat->bindValue(':emailAddress', $email);
-    $stat->bindValue(':password', $hashPassword);
-    $stat->bindValue(':issueType', $issueType);
-    $stat->bindValue(':userComments', $userComments);
+        // Hash a plain password
+        $hashPassword = $passwordHasher->hash($password); // returns a bcrypt hash
 
-    $stat->execute();
+        $stat = $pdo->prepare(
+            'INSERT INTO users VALUES (:username, :emailAddress, :password, :issueType, :userComments)'
+        );
+
+        $stat->bindValue(':username', $username);
+        $stat->bindValue(':emailAddress', $email);
+        $stat->bindValue(':password', $hashPassword);
+        $stat->bindValue(':issueType', $issueType);
+        $stat->bindValue(':userComments', $userComments);
+
+        $stat->execute();
+
+    }catch(Exception $err){
+        echo "Unable to Connect to DB";
+    }
+    
 
     ?>
 
+    <form action="index.php" enctype="multipart/form-data" method="POST">
     
     <h3>
-        <span>Username:</span> <?php echo $username; ?>
+        <span>Username:</span> <?php echo $username; ?><input type="hidden" name="username" class="userData" value="<?php echo $username; ?>" >
     </h3>
     <h3>
-    <span>Email Address:</span> <?php echo $email; ?>
+    <span>Email Address:</span> <?php echo $email; ?><input type="hidden" name="emailAddress" class="userData" value="<?php echo $email; ?>">
     </h3>
     <h3>
-        <span>Password:</span> <?php echo $password; ?>
+        <span>Password:</span> <?php echo $password; ?><input type="hidden" name="password" class="userData" value="<?php echo $password; ?>">
     </h3>
     <h3>
-        <span>Issue Type:</span> <?php echo $issueType; ?>
+        <span>Issue Type:</span> <?php echo $issueType; ?><input type="hidden" name="issueType" class="userData" value="<?php echo $issueType; ?>">
     </h3>
     <h3>
-        <span>Comments:</span> <?php echo $userComments; ?>
+        <span>Comments:</span> <?php echo $userComments; ?><input type="hidden" name="userComments" class="userData" value="<?php echo $userComments; ?>">
     </h3>
 
     <div class="btn-grp">
 
-        <button class="btn btn-info btn-lg" onclick="window.location = 'index.php'">GO BACK</button>
+        <button class="btn btn-info btn-lg" onclick="window.location = 'index.php'">HOME</button>
+        <button class="btn btn-info btn-lg" type="submit">EDIT</button>
+        <button class="btn btn-info btn-lg">SUBMIT</button>
 
     </div>
+
+    </form>
 </main>
 </body>
 </html>

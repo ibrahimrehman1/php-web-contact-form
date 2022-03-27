@@ -16,25 +16,38 @@
     <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
+  <?php 
+  
+  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $username = $_POST['username'];
+        $emailAddress = $_POST['emailAddress'];
+        $password = $_POST['password'];
+        $issueType = $_POST['issueType'];
+        $userComments = $_POST['userComments'];
+
+  }
+  
+  ?>
+
     <main class="container">
         <h1>Web Contact Form</h1>
         <form enctype="multipart/form-data" method="POST" action="destination.php">
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Username</label>
-    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="username" required>
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="username" required value="<?php echo isset($username) ? $username : '' ?>">
   </div>
   <div class="mb-3">
     <label for="exampleInputEmail2" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail2" aria-describedby="emailHelp" name="email" required>
+    <input type="email" class="form-control" id="exampleInputEmail2" aria-describedby="emailHelp" name="email" required value="<?php echo isset($emailAddress) ? $emailAddress : '' ?>">
     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
   </div>
   <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" name="password" required>
+    <input type="password" class="form-control" id="exampleInputPassword1" name="password" required value="<?php echo isset($password) ? $password : '' ?>">
   </div>
       <label for="issueType" class="form-label">Issue Type</label>
   <select class="form-select" aria-label="Default select example" id="issueType" name="issueType" required>
-  <option selected value="Query">Query</option>
+  <option value="Query">Query</option>
   <option value="Feedback">Feedback</option>
   <option value="Complaint">Complaint</option>
   <option value="Other">Other</option>
@@ -51,10 +64,22 @@
   </div>
 </form>
     </main>
+
+    <script>
+      let userComments = "<?php echo isset($userComments) ? $userComments : ''; ?>";
+      let issueType = "<?php echo isset($issueType) ? $issueType : ''; ?>";
+      console.log(userComments);
+      console.log(issueType);
+    </script>
+
 </body>
 <script>
+  const ISSUES = {"Query": 0, "Feedback": 1, "Complaint": 2, "Other": 3};
   $(document).ready(function() {
   $('#summernote').summernote({height: 200});
+
+  document.querySelector(".note-editable").innerText = userComments;
+  document.querySelector(".form-select").selectedIndex = ISSUES[issueType];
 });
 </script>
 </html>
