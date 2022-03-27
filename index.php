@@ -60,7 +60,7 @@
 
     <button type="submit" class="btn btn-primary btn-lg">Submit</button>
     
-    <button type="reset" class="btn btn-danger btn-lg">Reset</button>
+    <button type="button" class="btn btn-danger btn-lg" onclick="resetFields()">Reset</button>
   </div>
 </form>
     </main>
@@ -70,6 +70,15 @@
       let issueType = "<?php echo isset($issueType) ? $issueType : ''; ?>";
       console.log(userComments);
       console.log(issueType);
+
+      function resetFields(){
+        console.log("Hello")
+        document.querySelector("[name='username']").value = "";
+        document.querySelector("[name='email']").value = "";
+        document.querySelector("[name='password']").value = "";
+        document.querySelector(".note-editable").innerText = "";
+        document.querySelector(".form-select").selectedIndex = 0;
+      }
     </script>
 
 </body>
