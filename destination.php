@@ -74,7 +74,7 @@
 
         console.log(data);
 
-        // window.location = "index.php";
+        window.location = "index.php";
     }
 
 </script>

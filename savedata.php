@@ -2,12 +2,15 @@
 
 require_once 'vendor\autoload.php';
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $username = $_POST['username'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $issueType = $_POST['issueType'];
-        $userComments = $_POST['userComments'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $entityBody = json_decode(file_get_contents('php://input'));     
+
+        $username = $entityBody->username;
+        $email = $entityBody->email;
+        $password = $entityBody->password;
+        $issueType = $entityBody->issueType;
+        $userComments = $entityBody->userComments;
 
         try{
 
